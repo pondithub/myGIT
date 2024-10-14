@@ -1,2 +1,2 @@
-today I have started my github journey.This is my first github repository and also first editing using github editor.
-"This for understanding pull command"
+NOw I am in update-readme in git and will be push to github.
+
