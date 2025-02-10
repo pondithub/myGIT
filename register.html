@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelHub - Register</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function validateForm() {
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let role = document.getElementById("role").value.trim();
+            let phone = document.getElementById("phone").value.trim();
+            let messageDiv = document.getElementById("errorMessage");
+            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            let phoneRegex = /^[0-9]{10}$/;
+    
+            messageDiv.innerHTML = "";
+    
+            if (name === "" || email === "" || password === "" || role === "") {
+                messageDiv.innerHTML = "<span style='color: red;'>All required fields must be filled!</span>";
+                return false;
+            }
+            if (!emailRegex.test(email)) {
+                messageDiv.innerHTML = "<span style='color: red;'>Invalid email format!</span>";
+                return false;
+            }
+            if (password.length < 6) {
+                messageDiv.innerHTML = "<span style='color: red;'>Password must be at least 6 characters!</span>";
+                return false;
+            }
+            if (role === "") {
+                messageDiv.innerHTML = "<span style='color: red;'>Please select a role!</span>";
+                return false;
+            }
+            if (phone !== "" && !phoneRegex.test(phone)) {
+                messageDiv.innerHTML = "<span style='color: red;'>Invalid phone number! Must be 10 digits.</span>";
+                return false;
+            }
+            return true;
+        }
+    
+        function submitForm(event) {
+            event.preventDefault();
+    
+            if (!validateForm()) {
+                return;
+            }
+    
+            let formData = new FormData(document.getElementById("registerForm"));
+            let messageDiv = document.getElementById("errorMessage");
+    
+            fetch("register.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageDiv.innerHTML = "<span style='color: green;'>" + data.message + "</span>";
+                    document.getElementById("registerForm").reset();
+                } else {
+                    messageDiv.innerHTML = "<span style='color: red;'>" + data.message + "</span>";
+                }
+            })
+            .catch(error => {
+                messageDiv.innerHTML = "<span style='color: red;'>Error: " + error + "</span>";
+            });
+        }
+    
+        document.getElementById("registerForm").addEventListener("submit", submitForm);
+    </script>
+    
+    
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form   id="registerForm">
+            <div id="errorMessage" class="error-message"></div>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="role">Role:</label>
+            <select id="role" name="role" required>
+                <option value="">Select Role</option>
+                <option value="student">Student</option>
+                <option value="admin">Admin</option>
+            </select>
+            <label for="phone">Phone Number:</label>
+            <input type="text" id="phone" name="phone">
+            <button type="submit">Register</button>
+        </form>
+        <script>
+            document.getElementById("registerForm").addEventListener("submit", submitForm);
+        </script>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <h2>Manage Rooms</h2>
+        <form id="addRoomForm">
+            <label for="roomNumber">Room Number:</label>
+            <input type="text" id="roomNumber" name="roomNumber" required>
+            <label for="roomType">Room Type:</label>
+            <input type="text" id="roomType" name="roomType" required>
+            <button type="submit">Add Room</button>
+        </form>
+
+        <h2>Complaints</h2>
+        <ul id="complaintsList"></ul>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
